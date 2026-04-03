@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mermelaria — Sabores que inspiran</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --cream: #FDF6EC;
+    --warm: #F5E6C8;
+    --amber: #D4821A;
+    --amber-dark: #9C5C0C;
+    --green: #3B6B3A;
+    --green-light: #EEF5EC;
+    --text: #2A1F14;
+    --text-muted: #7A6651;
+    --border: rgba(42,31,20,0.12);
+    --font-display: 'Playfair Display', Georgia, serif;
+    --font-body: 'DM Sans', sans-serif;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--font-body);
+    background: var(--cream);
+    color: var(--text);
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(253,246,236,0.92);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1rem 2.5rem;
+  }
+
+  .logo {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--amber-dark);
+    letter-spacing: -0.02em;
+  }
+
+  .logo span { font-style: italic; color: var(--green); }
+
+  nav ul {
+    list-style: none;
+    display: flex; gap: 2rem;
+  }
+
+  nav a {
+    text-decoration: none;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--text-muted);
+    letter-spacing: 0.03em;
+    transition: color 0.2s;
+  }
+
+  nav a:hover { color: var(--amber-dark); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    padding: 8rem 2.5rem 4rem;
+    gap: 4rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .hero-text { animation: fadeUp 0.8s ease both; }
+
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: var(--green-light);
+    color: var(--green);
+    font-size: 0.75rem; font-weight: 500;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    padding: 6px 14px; border-radius: 100px;
+    margin-bottom: 1.5rem;
+  }
+
+  .hero-badge::before {
+    content: '';
+    width: 7px; height: 7px;
+    background: var(--green);
+    border-radius: 50%;
+  }
+
+  .hero h1 {
+    font-family: var(--font-display);
+    font-size: clamp(2.8rem, 5vw, 4.2rem);
+    line-height: 1.1;
+    color: var(--text);
+    margin-bottom: 1.2rem;
+  }
+
+  .hero h1 em {
+    font-style: italic;
+    color: var(--amber);
+  }
+
+  .hero p {
+    font-size: 1.05rem;
+    line-height: 1.7;
+    color: var(--text-muted);
+    max-width: 420px;
+    margin-bottom: 2.5rem;
+  }
+
+  .btn-group { display: flex; gap: 1rem; flex-wrap: wrap; }
+
+  .btn-primary {
+    background: var(--amber-dark);
+    color: #FDF6EC;
+    font-family: var(--font-body);
+    font-size: 0.9rem; font-weight: 500;
+    padding: 0.85rem 2rem;
+    border: none; border-radius: 100px;
+    cursor: pointer; text-decoration: none;
+    transition: background 0.2s, transform 0.15s;
+    display: inline-block;
+  }
+
+  .btn-primary:hover { background: var(--amber); transform: translateY(-1px); }
+
+  .btn-secondary {
+    background: transparent;
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 0.9rem; font-weight: 500;
+    padding: 0.85rem 2rem;
+    border: 1.5px solid var(--border);
+    border-radius: 100px;
+    cursor: pointer; text-decoration: none;
+    transition: border-color 0.2s;
+    display: inline-block;
+  }
+
+  .btn-secondary:hover { border-color: var(--amber-dark); }
+
+  /* Hero visual */
+  .hero-visual {
+    position: relative;
+    display: flex; justify-content: center; align-items: center;
+    animation: fadeUp 0.8s 0.15s ease both;
+  }
+
+  .jar-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem;
+    transform: rotate(2deg);
+  }
+
+  .jar-card {
+    background: white;
+    border-radius: 20px;
+    padding: 1.5rem 1.2rem;
+    border: 1px solid var(--border);
+    display: flex; flex-direction: column; align-items: center; gap: 0.8rem;
+    transition: transform 0.25s;
+    text-align: center;
+  }
+
+  .jar-card:hover { transform: translateY(-4px); }
+  .jar-card:nth-child(even) { margin-top: 1.5rem; }
+
+  .jar-icon {
+    width: 64px; height: 80px;
+    position: relative;
+  }
+
+  .jar-name {
+    font-family: var(--font-display);
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1.3;
+  }
+
+  /* SECTION COMMONS */
+  section { padding: 6rem 2.5rem; }
+
+  .section-header {
+    text-align: center;
+    max-width: 560px;
+    margin: 0 auto 4rem;
+  }
+
+  .section-tag {
+    font-size: 0.75rem; font-weight: 500;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 0.75rem;
+  }
+
+  .section-header h2 {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 3.5vw, 2.8rem);
+    line-height: 1.15;
+    margin-bottom: 1rem;
+  }
+
+  .section-header p { color: var(--text-muted); line-height: 1.7; }
+
+  /* PRODUCTOS */
+  .productos { background: white; }
+  .productos-inner { max-width: 1200px; margin: 0 auto; }
+
+  .products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .product-card {
+    border-radius: 20px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    transition: transform 0.25s, box-shadow 0.25s;
+  }
+
+  .product-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.09);
+  }
+
+  .product-top {
+    height: 200px;
+    display: flex; align-items: center; justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .product-body { padding: 1.4rem; }
+
+  .product-label {
+    font-size: 0.7rem; font-weight: 500;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    margin-bottom: 0.4rem;
+  }
+
+  .product-body h3 {
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .product-body p {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    line-height: 1.6;
+    margin-bottom: 1rem;
+  }
+
+  .product-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+
+  .tag {
+    font-size: 0.7rem; font-weight: 500;
+    padding: 4px 10px; border-radius: 100px;
+    background: var(--green-light); color: var(--green);
+  }
+
+  .tag.nuevo { background: #FFF3E0; color: #B45309; }
+
+  /* VALORES */
+  .valores { max-width: 1100px; margin: 0 auto; }
+
+  .valores-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 2rem;
+    margin-top: 3rem;
+  }
+
+  .valor-item { text-align: center; padding: 1.5rem; }
+
+  .valor-icon {
+    width: 56px; height: 56px;
+    border-radius: 16px;
+    background: var(--green-light);
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 1rem;
+    font-size: 1.5rem;
+  }
+
+  .valor-item h3 {
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .valor-item p { font-size: 0.875rem; color: var(--text-muted); line-height: 1.6; }
+
+  /* CTA */
+  .cta-section {
+    background: var(--amber-dark);
+    color: white;
+    text-align: center;
+    border-radius: 28px;
+    margin: 0 2.5rem 5rem;
+    padding: 5rem 2rem;
+  }
+
+  .cta-section h2 {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 4vw, 3rem);
+    color: white;
+    margin-bottom: 1rem;
+  }
+
+  .cta-section p { color: rgba(255,255,255,0.8); font-size: 1rem; margin-bottom: 2rem; }
+
+  .btn-white {
+    background: white; color: var(--amber-dark);
+    font-family: var(--font-body);
+    font-size: 0.9rem; font-weight: 500;
+    padding: 0.9rem 2.2rem; border: none;
+    border-radius: 100px; cursor: pointer;
+    text-decoration: none; display: inline-block;
+    transition: transform 0.15s;
+  }
+
+  .btn-white:hover { transform: translateY(-2px); }
+
+  /* FOOTER */
+  footer {
+    background: var(--text);
+    color: rgba(255,255,255,0.7);
+    padding: 3rem 2.5rem;
+    text-align: center;
+  }
+
+  footer .logo { color: var(--warm); margin-bottom: 0.75rem; display: block; }
+  footer p { font-size: 0.85rem; }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    nav ul { display: none; }
+    .hero { grid-template-columns: 1fr; padding-top: 6rem; gap: 3rem; }
+    .hero-visual { order: -1; }
+    .jar-grid { transform: none; }
+    section { padding: 4rem 1.5rem; }
+    .cta-section { margin: 0 1rem 3rem; padding: 3rem 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">Mermel<span>aria</span></div>
+  <ul>
+    <li><a href="#productos">Mermeladas</a></li>
+    <li><a href="#valores">Nosotros</a></li>
+    <li><a href="#contacto">Contacto</a></li>
+  </ul>
+  <a href="#productos" class="btn-primary" style="padding: 0.6rem 1.4rem; font-size:0.82rem;">Ver productos</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero" style="padding-bottom:2rem;">
+  <div class="hero-text">
+    <div class="hero-badge">100% Natural · Sin conservantes</div>
+    <h1>Mermeladas que <em>enamoran</em> el paladar</h1>
+    <p>Creamos sabores únicos usando solo ingredientes naturales, sin azúcares refinados ni conservantes artificiales. Porque lo natural siempre sabe mejor.</p>
+    <div class="btn-group">
+      <a href="#productos" class="btn-primary">Descubrir sabores</a>
+      <a href="#valores" class="btn-secondary">Nuestra historia</a>
+    </div>
+  </div>
+
+  <div class="hero-visual">
+    <div class="jar-grid">
+      <!-- Fresa Limón -->
+      <div class="jar-card">
+        <div class="jar-icon">
+          <svg viewBox="0 0 64 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="14" y="26" width="36" height="46" rx="8" fill="#F43F5E" opacity="0.15"/>
+            <rect x="14" y="26" width="36" height="46" rx="8" fill="none" stroke="#F43F5E" stroke-width="1.5"/>
+            <rect x="10" y="18" width="44" height="14" rx="4" fill="#F43F5E" opacity="0.3"/>
+            <rect x="20" y="10" width="24" height="12" rx="4" fill="#9F1239" opacity="0.3"/>
+            <ellipse cx="32" cy="49" rx="16" ry="16" fill="#FB7185" opacity="0.6"/>
+            <circle cx="26" cy="44" r="4" fill="#FFF" opacity="0.3"/>
+          </svg>
+        </div>
+        <div class="jar-name">Fresa<br>Limón</div>
+      </div>
+
+      <!-- Piña Jengibre -->
+      <div class="jar-card">
+        <div class="jar-icon">
+          <svg viewBox="0 0 64 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="14" y="26" width="36" height="46" rx="8" fill="#F59E0B" opacity="0.15"/>
+            <rect x="14" y="26" width="36" height="46" rx="8" fill="none" stroke="#F59E0B" stroke-width="1.5"/>
+            <rect x="10" y="18" width="44" height="14" rx="4" fill="#F59E0B" opacity="0.3"/>
+            <rect x="20" y="10" width="24" height="12" rx="4" fill="#92400E" opacity="0.3"/>
+            <ellipse cx="32" cy="49" rx="16" ry="16" fill="#FCD34D" opacity="0.6"/>
+            <circle cx="26" cy="44" r="4" fill="#FFF" opacity="0.3"/>
+          </svg>
+        </div>
+        <div class="jar-name">Piña<br>Jengibre</div>
+      </div>
+
+      <!-- Mango Maracuyá -->
+      <div class="jar-card">
+        <div class="jar-icon">
+          <svg viewBox="0 0 64 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="14" y="26" width="36" height="46" rx="8" fill="#EA580C" opacity="0.15"/>
+            <rect x="14" y="26" width="36" height="46" rx="8" fill="none" stroke="#EA580C" stroke-width="1.5"/>
+            <rect x="10" y="18" width="44" height="14" rx="4" fill="#EA580C" opacity="0.3"/>
+            <rect x="20" y="10" width="24" height="12" rx="4" fill="#9A3412" opacity="0.3"/>
+            <ellipse cx="32" cy="49" rx="16" ry="16" fill="#FB923C" opacity="0.6"/>
+            <circle cx="26" cy="44" r="4" fill="#FFF" opacity="0.3"/>
+          </svg>
+        </div>
+        <div class="jar-name">Mango<br>Maracuyá</div>
+      </div>
+
+      <!-- Café Naranja -->
+      <div class="jar-card">
+        <div class="jar-icon">
+          <svg viewBox="0 0 64 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="14" y="26" width="36" height="46" rx="8" fill="#78350F" opacity="0.15"/>
+            <rect x="14" y="26" width="36" height="46" rx="8" fill="none" stroke="#78350F" stroke-width="1.5"/>
+            <rect x="10" y="18" width="44" height="14" rx="4" fill="#78350F" opacity="0.3"/>
+            <rect x="20" y="10" width="24" height="12" rx="4" fill="#451A03" opacity="0.3"/>
+            <ellipse cx="32" cy="49" rx="16" ry="16" fill="#A16207" opacity="0.6"/>
+            <circle cx="26" cy="44" r="4" fill="#FFF" opacity="0.3"/>
+          </svg>
+        </div>
+        <div class="jar-name">Café<br>Naranja</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRODUCTOS -->
+<section class="productos" id="productos">
+  <div class="productos-inner">
+    <div class="section-header">
+      <div class="section-tag">Nuestras mermeladas</div>
+      <h2>Cuatro sabores, infinitas experiencias</h2>
+      <p>Cada mermelada es elaborada artesanalmente con frutas seleccionadas y combinaciones únicas que despertarán tus sentidos.</p>
+    </div>
+
+    <div class="products-grid">
+
+      <!-- Fresa Limón -->
+      <div class="product-card">
+        <div class="product-top" style="background: linear-gradient(135deg, #FFF1F3 0%, #FFE4E8 100%);">
+          <svg width="90" height="110" viewBox="0 0 64 80" fill="none">
+            <rect x="14" y="26" width="36" height="46" rx="8" fill="#F43F5E" opacity="0.2"/>
+            <rect x="14" y="26" width="36" height="46" rx="8" fill="none" stroke="#F43F5E" stroke-width="2"/>
+            <rect x="10" y="18" width="44" height="14" rx="4" fill="#F43F5E" opacity="0.35"/>
+            <rect x="20" y="10" width="24" height="12" rx="4" fill="#9F1239" opacity="0.4"/>
+            <ellipse cx="32" cy="49" rx="14" ry="14" fill="#FB7185" opacity="0.7"/>
+            <circle cx="27" cy="44" r="4" fill="#FFF" opacity="0.4"/>
+            <text x="32" y="52" text-anchor="middle" fill="#9F1239" font-size="9" font-family="Georgia,serif" font-style="italic">clásica</text>
+          </svg>
+        </div>
+        <div class="product-body">
+          <div class="product-label" style="color:#F43F5E;">● Mermelada clásica</div>
+          <h3>Fresa & Limón</h3>
+          <p>La combinación perfecta entre la dulzura de la fresa y el toque cítrico del limón. Nuestra mermelada más querida.</p>
+          <div class="product-tags">
+            <span class="tag">Sin azúcar refinada</span>
+            <span class="tag">Artesanal</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Piña Jengibre -->
+      <div class="product-card">
+        <div class="product-top" style="background: linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%);">
+          <svg width="90" height="110" viewBox="0 0 64 80" fill="none">
+            <rect x="14" y="26" width="36" height="46" rx="8" fill="#F59E0B" opacity="0.2"/>
+            <rect x="14" y="26" width="36" height="46" rx="8" fill="none" stroke="#F59E0B" stroke-width="2"/>
+            <rect x="10" y="18" width="44" height="14" rx="4" fill="#F59E0B" opacity="0.35"/>
+            <rect x="20" y="10" width="24" height="12" rx="4" fill="#92400E" opacity="0.4"/>
+            <ellipse cx="32" cy="49" rx="14" ry="14" fill="#FCD34D" opacity="0.7"/>
+            <circle cx="27" cy="44" r="4" fill="#FFF" opacity="0.4"/>
+            <text x="32" y="52" text-anchor="middle" fill="#92400E" font-size="9" font-family="Georgia,serif" font-style="italic">tropical</text>
+          </svg>
+        </div>
+        <div class="product-body">
+          <div class="product-label" style="color:#D97706;">● Mermelada tropical</div>
+          <h3>Piña & Jengibre</h3>
+          <p>La frescura tropical de la piña con el toque cálido y aromático del jengibre. Ideal para quienes buscan algo diferente.</p>
+          <div class="product-tags">
+            <span class="tag">Sin azúcar refinada</span>
+            <span class="tag">Antiinflamatoria</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mango Maracuyá -->
+      <div class="product-card">
+        <div class="product-top" style="background: linear-gradient(135deg, #FFF7ED 0%, #FFEDD5 100%);">
+          <svg width="90" height="110" viewBox="0 0 64 80" fill="none">
+            <rect x="14" y="26" width="36" height="46" rx="8" fill="#EA580C" opacity="0.2"/>
+            <rect x="14" y="26" width="36" height="46" rx="8" fill="none" stroke="#EA580C" stroke-width="2"/>
+            <rect x="10" y="18" width="44" height="14" rx="4" fill="#EA580C" opacity="0.35"/>
+            <rect x="20" y="10" width="24" height="12" rx="4" fill="#9A3412" opacity="0.4"/>
+            <ellipse cx="32" cy="49" rx="14" ry="14" fill="#FB923C" opacity="0.7"/>
+            <circle cx="27" cy="44" r="4" fill="#FFF" opacity="0.4"/>
+            <text x="32" y="52" text-anchor="middle" fill="#9A3412" font-size="8" font-family="Georgia,serif" font-style="italic">exótica</text>
+          </svg>
+        </div>
+        <div class="product-body">
+          <div class="product-label" style="color:#EA580C;">● Mermelada exótica</div>
+          <h3>Mango & Maracuyá</h3>
+          <p>Dos frutas tropicales que se fusionan en una explosión de sabor. Dulce, ácida y completamente irresistible.</p>
+          <div class="product-tags">
+            <span class="tag">Sin azúcar refinada</span>
+            <span class="tag">Rico en vitamina C</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Café Naranja -->
+      <div class="product-card">
+        <div class="product-top" style="background: linear-gradient(135deg, #FEFCE8 0%, #FEF08A 40%, #FDE68A 100%);">
+          <svg width="90" height="110" viewBox="0 0 64 80" fill="none">
+            <rect x="14" y="26" width="36" height="46" rx="8" fill="#78350F" opacity="0.2"/>
+            <rect x="14" y="26" width="36" height="46" rx="8" fill="none" stroke="#78350F" stroke-width="2"/>
+            <rect x="10" y="18" width="44" height="14" rx="4" fill="#78350F" opacity="0.35"/>
+            <rect x="20" y="10" width="24" height="12" rx="4" fill="#451A03" opacity="0.4"/>
+            <ellipse cx="32" cy="49" rx="14" ry="14" fill="#A16207" opacity="0.7"/>
+            <circle cx="27" cy="44" r="4" fill="#FFF" opacity="0.4"/>
+            <text x="32" y="52" text-anchor="middle" fill="#451A03" font-size="8" font-family="Georgia,serif" font-style="italic">única</text>
+          </svg>
+        </div>
+        <div class="product-body">
+          <div class="product-label" style="color:#92400E;">● Edición especial</div>
+          <h3>Café & Naranja</h3>
+          <p>Nuestra creación más atrevida: el amargor profundo del café colombiano con la dulzura cítrica de la naranja. Una experiencia única.</p>
+          <div class="product-tags">
+            <span class="tag nuevo">Innovadora</span>
+            <span class="tag">Sin azúcar refinada</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- VALORES -->
+<section id="valores" style="background: var(--cream);">
+  <div class="valores" style="max-width:1100px; margin: 0 auto;">
+    <div class="section-header">
+      <div class="section-tag">Por qué Mermelaria</div>
+      <h2>Hechas con propósito, saboreadas con amor</h2>
+      <p>Nuestro compromiso va más allá del sabor. Cada frasco es una promesa de calidad, naturalidad y bienestar para ti y tu familia.</p>
+    </div>
+
+    <div class="valores-grid">
+      <div class="valor-item">
+        <div class="valor-icon">🌿</div>
+        <h3>100% Natural</h3>
+        <p>Solo usamos frutas frescas y endulzantes naturales como la panela y la stevia. Sin químicos, sin artificios.</p>
+      </div>
+      <div class="valor-item">
+        <div class="valor-icon">🚫</div>
+        <h3>Sin conservantes</h3>
+        <p>Nuestras mermeladas se conservan gracias a procesos naturales. Lo que comes es exactamente lo que ves.</p>
+      </div>
+      <div class="valor-item">
+        <div class="valor-icon">🫙</div>
+        <h3>Artesanal</h3>
+        <p>Cada frasco es elaborado en pequeños lotes con atención al detalle, preservando la textura y el sabor auténtico.</p>
+      </div>
+      <div class="valor-item">
+        <div class="valor-icon">🌱</div>
+        <h3>Sostenible</h3>
+        <p>Trabajamos con productores locales y usamos empaques amigables con el medio ambiente.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA / CONTACTO -->
+<div id="contacto">
+  <div class="cta-section">
+    <h2>¿Listo para probar algo diferente?</h2>
+    <p>Escríbenos y lleva Mermelaria a tu mesa. Hacemos pedidos personalizados y envíos a todo el país.</p>
+    <a href="mailto:hola@mermelaria.co" class="btn-white">Hacer un pedido</a>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <span class="logo" style="font-family:'Playfair Display',serif; font-size:1.3rem; font-weight:700; display:block; margin-bottom:0.75rem;">Mermelaria</span>
+  <p>Sabores naturales, experiencias auténticas.<br>
+  <span style="font-size:0.8rem; opacity:0.5; margin-top:0.5rem; display:block;">© 2025 Mermelaria · Hecho con amor y frutas frescas 🍓</span></p>
+</footer>
+
+<script>
+  // Smooth scroll for nav links
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      e.preventDefault();
+      const el = document.querySelector(a.getAttribute('href'));
+      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
+
+  // Animate elements on scroll
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.style.animation = 'fadeUp 0.6s ease both';
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.product-card, .valor-item').forEach(el => {
+    el.style.opacity = '0';
+    observer.observe(el);
+  });
+</script>
+</body>
+</html>
